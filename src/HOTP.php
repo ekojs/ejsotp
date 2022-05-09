@@ -54,13 +54,13 @@ class HOTP {
         return $this->writer->write($qrCode, $logo, $label);
     }
 
-    public function generateBackupCodes(string $entropy, ?WordList $wordList=null) {
+    public function generateBackupCodes(string $entropy, ?WordList $wordList=null): array {
         $wordList = $wordList ?? WordList::English();
-        return $this->bip39->wordlist($wordList)->useEntropy(hash("md5",$entropy))->mnemonic();
+        return $this->bip39->wordlist($wordList)->useEntropy(hash("md5",$entropy))->mnemonic()->words;
     }
 
-    public function reverseMnemonic($words) {
-        return $this->bip39::Words($words);
+    public function reverseMnemonic($words): string {
+        return $this->bip39::Words($words)->entropy;
     }
 }
  

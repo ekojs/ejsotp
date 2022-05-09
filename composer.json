@@ -16,6 +16,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
+        "php": ">=7.3",
         "spomky-labs/otphp": "^10.0",
         "endroid/qr-code": "^4.4",
         "furqansiddiqui/bip39-mnemonic-php": "^0.1.4"
