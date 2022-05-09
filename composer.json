@@ -1,0 +1,23 @@
+{
+    "name": "ekojs/otp",
+    "description": "TOTP dan HOTP Library with backup codes, compatible with google authenticator",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ekojs\\Otp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Eko Junaidi Salam",
+            "email": "eko.junaidi.salam@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "spomky-labs/otphp": "^10.0",
+        "endroid/qr-code": "^4.4",
+        "furqansiddiqui/bip39-mnemonic-php": "^0.1.4"
+    }
+}
