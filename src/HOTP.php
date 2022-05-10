@@ -9,15 +9,19 @@
 namespace Ekojs\Otp;
 
 use OTPHP\HOTP as LabHOTP;
+use OTPHP\OTP as LabOTP;
 use \FurqanSiddiqui\BIP39\BIP39;
 use \FurqanSiddiqui\BIP39\WordList;
+use ParagonIE\ConstantTime\Base32;
+
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\Logo\Logo;
 use Endroid\QrCode\Label\Label;
 use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Writer\Result\ResultInterface;
 
-class HOTP {
+class HOTP implements OTPInterface {
     public static $instance;
     public $otp;
     protected $writer;
@@ -26,7 +30,7 @@ class HOTP {
 
     public function __construct(?array $params=null) {
         $this->parameters = $params;
-        $this->otp = LabHOTP::create($params["secret"] ?? null, $params["counter"] ?? 0, $params["digest"] ?? 'sha1', $params["digits"] ?? 6);
+        $this->otp = LabHOTP::create(!empty($params["secret"]) && is_string($params["secret"]) ? Base32::encodeUpper($params["secret"]) : null, $params["counter"] ?? 0, $params["digest"] ?? 'sha1', $params["digits"] ?? 6);
         $this->writer = new PngWriter();
         $this->bip39 = new BIP39();
         self::$instance = $this;
@@ -43,7 +47,12 @@ class HOTP {
         return $this->parameters ?? null;
     }
 
-    public function generateQr(?string $logo=null, bool $setLabel=false, int $size=200) {
+    public function createOTP(?array $params=null): OTPInterface {
+        $this->otp = LabHOTP::create(!empty($params["secret"]) && is_string($params["secret"]) ? Base32::encodeUpper($params["secret"]) : null, $params["counter"] ?? 0, $params["digest"] ?? 'sha1', $params["digits"] ?? 6);
+        return $this;
+    }
+
+    public function generateQr(?string $logo=null, bool $setLabel=false, int $size=200): ResultInterface {
         $label = null;
         $qrCode = QrCode::create($this->otp->getProvisioningUri());
         $qrCode->setSize($size);

@@ -11,13 +11,16 @@ namespace Ekojs\Otp;
 use OTPHP\TOTP as LabTOTP;
 use \FurqanSiddiqui\BIP39\BIP39;
 use \FurqanSiddiqui\BIP39\Wordlist;
+use ParagonIE\ConstantTime\Base32;
+
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\Logo\Logo;
 use Endroid\QrCode\Label\Label;
 use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Writer\Result\ResultInterface;
 
-class TOTP {
+class TOTP implements OTPInterface {
     public static $instance;
     private $mode;
     public $otp;
@@ -27,7 +30,7 @@ class TOTP {
 
     public function __construct(?array $params=null) {
         $this->parameters = $params;
-        $this->otp = LabTOTP::create($params["secret"] ?? null, $params["period"] ?? 30, $params["digest"] ?? 'sha1', $params["digits"] ?? 6, $params["epoch"] ?? 0);
+        $this->otp = LabTOTP::create(!empty($params["secret"]) && is_string($params["secret"]) ? Base32::encodeUpper($params["secret"]) : null, $params["period"] ?? 30, $params["digest"] ?? 'sha1', $params["digits"] ?? 6, $params["epoch"] ?? 0);
         $this->writer = new PngWriter();
         $this->bip39 = new BIP39();
         self::$instance = $this;
@@ -44,7 +47,12 @@ class TOTP {
         return $this->parameters ?? null;
     }
 
-    public function generateQr(?string $logo=null, bool $setLabel=false, int $size=200) {
+    public function createOTP(?array $params=null): OTPInterface {
+        $this->otp = LabTOTP::create(!empty($params["secret"]) && is_string($params["secret"]) ? Base32::encodeUpper($params["secret"]) : null, $params["period"] ?? 30, $params["digest"] ?? 'sha1', $params["digits"] ?? 6, $params["epoch"] ?? 0);
+        return $this;
+    }
+
+    public function generateQr(?string $logo=null, bool $setLabel=false, int $size=200): ResultInterface {
         $label = null;
         $qrCode = QrCode::create($this->otp->getProvisioningUri());
         $qrCode->setSize($size);

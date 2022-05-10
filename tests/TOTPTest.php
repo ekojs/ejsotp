@@ -11,7 +11,7 @@ class TOTPTest extends TestCase {
     protected function setUp(): void
     {
         $this->totp = TOTP::getInstance([
-            "secret" => "VZCKGWRLS7CINEYALENYPH5T442LJUAFGSNCBTBQEHMN5GSVGTJCD2B7NHCZFK5FZ3QHTQ66JYDMNUI2UBWZJAYHI62VYVHVUGTO6SQ"
+            "secret" => "mysecret"
         ]);
         $this->totp->otp->setLabel('ekojs@email.com');
         $this->totp->otp->setIssuer("My Service");
@@ -19,12 +19,12 @@ class TOTPTest extends TestCase {
 
     public function testGenerateTotp(): void
     {
-        $this->assertEquals("710065",$this->totp->otp->at(1652149726));
+        $this->assertEquals("389403",$this->totp->otp->at(1652149726));
     }
 
     public function testVerifyTotp(): void
     {
-        $this->assertTrue($this->totp->otp->verify("710065",1652149726));
+        $this->assertTrue($this->totp->otp->verify("389403",1652149726));
     }
 
     public function testGetParameters(): void
@@ -34,7 +34,13 @@ class TOTPTest extends TestCase {
 
     public function testGenerateQr(): void
     {
-        $this->assertEquals("data:image/png;base64,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",$this->totp->generateQr()->getDataUri());
+        $this->assertEquals("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANwAAADcCAIAAACUOFjWAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAFcElEQVR4nO3dwY7jNhBF0XSQ///lyS4LIyOMzCJ1233O1rYkex6IriFZ/Pr169dfUPL30w8Ar4SSHKEkRyjJEUpyhJIcoSRHKMkRSnKEkhyhJEcoyRFKcoSSHKEkRyjJ+eeNz3x9fY0/x/+6XoD88hjN1cq3fquXr3D9BQevvM97/yhGSnKEkhyhJEcoyXmn0HkxWGFc/wF+69VbT3Xrs9eP8fLZW5da+frXjzH45msjJZSRkhyhJEcoyRFKcgYKnRfH/h7fN6Nzq5S5VazcsvJ9B8u+azsm0oyU5AglOUJJjlCSM1/o7LNSQ6zULteXiqyvO7Ya7QAjJTlCSY5QkiOU5HynQufWVMrKErLBvTKDG2tW7vu9GCnJEUpyhJIcoSRnvtB5atJi330Hl8yt1D3xDgKDjJTkCCU5QkmOUJIzUOg8tWhqZd5lsFXB4H0HrzzYXuE8IyU5QkmOUJIjlOR8Pf7f928b7L58S6Ro+OCVbEZKcoSSHKEkRyjJeafQOdZYbOVSK/Ztyll5yKf6ue2bKvsdIyU5QkmOUJIjlORsn9E5drzN4KX2zY4MXnnfN3r8tzJSkiOU5AglOUJJzvyMzr5y5Ng+mxcfsDlmsPnbgQkeIyU5QkmOUJIjlORsX7o2uJVk8CDLpzpG3/LUAamPb+gxUpIjlOQIJTlCSc5A17VIKTN4yuf1jW69ev0YK5e6deV9LF3jRxBKcoSSHKEk53R76X2bVFYMFkkrT7Vy5umgwZbY7zFSkiOU5AglOUJJzvyBoS9WqoSnZjhWHnJlR8v1jW7Z9zsfWOdmpCRHKMkRSnKEkpzP6bo2+OZje3QGGxkMft/H6x4jJTlCSY5QkiOU5GzvunbsWM9IZbOvGfO3KM6u3/yHjJTkCCU5QkmOUJIz34zg2rG/9FemFla6DwzOjlzfN1Ks2KPDjyCU5AglOUJJTnpG5zt2m1658r7TfVaeaoUZHT6EUJIjlOQIJTnb9+jsE1kGduupbtnXi2Ffdzt7dPhMQkmOUJIjlOS8s3Rt3971b1F/7Jtoub7RyrzL4FNdX2pkAaGRkhyhJEcoyRFKct4pdAa3v+zrVbxv38lKwbFvm1FkZs6MDp9JKMkRSnKEkpyBPTrHplJuOdYF4Fhx9uJYd7sDbdZeGCnJEUpyhJIcoSRnYEZn3zzEsT3z144tIVv57LeubF4YKckRSnKEkhyhJOfhZgTHNpo8NWcTKWX2/XS37vuHjJTkCCU5QkmOUJIz0Izgxb75gMEOytdvXrGvOrl+dbDLw+AxQu8xUpIjlOQIJTlCSU56j87guTK33tzs9nbrvs3H+ENGSnKEkhyhJEcoyXlnRmfFsf7Kgy2TV65867P7Dv1szn79jpGSHKEkRyjJEUpyThc6L57qyXbsEMxIcTbYA/vWle3R4UMIJTlCSY5QkvNwM4JbjnUfuNbsibBvL9StSzkwlM8klOQIJTlCSc58M4JBB/6mfsO+E0JXZmVWJngi233+Y6QkRyjJEUpyhJKcgaVrx07MvFUl7CuSBjfHXNtXug2ukdOMgB9BKMkRSnKEkpz5PTr7tr/sW1J168qD3ZePndDz1F6o9xgpyRFKcoSSHKEk5+FmBCtuzTQcm8N4qnPayq6jWw50qDNSkiOU5AglOUJJzjcudG7Z15vg1qWOTeHsq3sGT0T9HSMlOUJJjlCSI5TkzBc6zaYAg2fD7GvRNvjqLfvOWn2PkZIcoSRHKMkRSnIGCp2n9n8MHiQzWHDcuu++xWnHCqwX2kvzmYSSHKEkRyjJ+U7n6PBDGCnJEUpyhJIcoSRHKMkRSnKEkhyhJEcoyRFKcoSSHKEkRyjJEUpyhJIcoSRHKMn5F+Y83M5K0vWXAAAAAElFTkSuQmCC",$this->totp->generateQr()->getDataUri());
+    }
+
+    public function testCreateTotp(): void 
+    {
+        $otp = $this->totp->createOTP(["secret" => "mysecret1234567890"])->otp;
+        $this->assertInstanceOf(\OTPHP\TOTP::class, $otp);
     }
 
     public function testGenerateBackupCodes(): void 
