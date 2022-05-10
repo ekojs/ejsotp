@@ -1,13 +1,15 @@
 OTP Library
 =============
 
-TOTP dan HOTP Library with backup codes, compatible with google authenticator. Compatible with PHP >= 7.3.
+TOTP dan HOTP Library with backup codes, compatible with google authenticator. Compatible with PHP >= 7.4.13.
 
+[![Build Status](https://www.travis-ci.com/ekojs/ejsotp.svg?branch=master)](https://www.travis-ci.com/ekojs/ejsotp)
+[![Coverage Status](https://coveralls.io/repos/ekojs/ejsotp/badge.svg?branch=master)](https://coveralls.io/r/ekojs/ejsotp?branch=master)
 [![Latest Stable Version](http://poser.pugx.org/ekojs/otp/v)](https://packagist.org/packages/ekojs/otp) [![Total Downloads](http://poser.pugx.org/ekojs/otp/downloads)](https://packagist.org/packages/ekojs/otp) [![Latest Unstable Version](http://poser.pugx.org/ekojs/otp/v/unstable)](https://packagist.org/packages/ekojs/otp) [![License](http://poser.pugx.org/ekojs/otp/license)](https://packagist.org/packages/ekojs/otp) [![PHP Version Require](http://poser.pugx.org/ekojs/otp/require/php)](https://packagist.org/packages/ekojs/otp)
 
 ## Install
 
-For PHP version **`>= 7.3`**:
+For PHP version **`>= 7.4.13`**:
 
 ```
 composer require ekojs/otp

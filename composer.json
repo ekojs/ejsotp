@@ -8,6 +8,11 @@
             "Ekojs\\Otp\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Ekojs\\Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Eko Junaidi Salam",
@@ -15,10 +20,17 @@
         }
     ],
     "minimum-stability": "stable",
+    "scripts": {
+        "test": "phpunit -c phpunit.xml --testdox tests"
+    },
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4.13",
         "spomky-labs/otphp": "^10.0",
         "endroid/qr-code": "^4.4",
         "furqansiddiqui/bip39-mnemonic-php": "^0.1.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "php-coveralls/php-coveralls": "^2.5"
     }
 }

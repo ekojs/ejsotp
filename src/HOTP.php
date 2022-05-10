@@ -10,7 +10,7 @@ namespace Ekojs\Otp;
 
 use OTPHP\HOTP as LabHOTP;
 use \FurqanSiddiqui\BIP39\BIP39;
-use \FurqanSiddiqui\BIP39\Wordlist;
+use \FurqanSiddiqui\BIP39\WordList;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\Logo\Logo;
@@ -39,8 +39,8 @@ class HOTP {
         return self::$instance;
     }
 
-    public function getParams(): array {
-        return $this->parameters;
+    public function getParams(): ?array {
+        return $this->parameters ?? null;
     }
 
     public function generateQr(?string $logo=null, bool $setLabel=false, int $size=200) {

@@ -40,8 +40,8 @@ class TOTP {
         return self::$instance;
     }
 
-    public function getParams(): array {
-        return $this->parameters;
+    public function getParams(): ?array {
+        return $this->parameters ?? null;
     }
 
     public function generateQr(?string $logo=null, bool $setLabel=false, int $size=200) {
