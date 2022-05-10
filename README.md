@@ -1,7 +1,7 @@
 OTP Library
 =============
 
-TOTP dan HOTP Library with backup codes, compatible with google authenticator. Compatible with PHP >= 7.4.13.
+TOTP and HOTP Library with backup codes, compatible with google authenticator. Compatible with PHP >= 7.4.13.
 
 [![Build Status](https://www.travis-ci.com/ekojs/ejsotp.svg?branch=master)](https://www.travis-ci.com/ekojs/ejsotp)
 [![Coverage Status](https://coveralls.io/repos/ekojs/ejsotp/badge.svg?branch=master)](https://coveralls.io/r/ekojs/ejsotp?branch=master)
@@ -22,7 +22,6 @@ composer require ekojs/otp
 require_once "vendor/autoload.php";
 
 use Ekojs\Otp\TOTP;
-use Ekojs\Otp\HOTP;
 
 $ejsotp = TOTP::getInstance();
 $ejsotp->otp->setLabel("ekojs@email.com");
@@ -45,6 +44,10 @@ var_dump($ejsotp->otp->verify("988942"));
 
 ### Generate HOTP (HMAC-Based One-Time Password) based on [RFC 4226](http://tools.ietf.org/html/rfc4226)
 ```php
+require_once "vendor/autoload.php";
+
+use Ekojs\Otp\HOTP;
+
 $ejshotp = HOTP::getInstance(["counter" => 1000]);
 $ejshotp->otp->setLabel("ekojs@email.com");
 $ejshotp->otp->setIssuer("My Service HOTP");
@@ -82,6 +85,24 @@ echo "Reverse Mnemonic: ".$ejsotp->reverseMnemonic("almost awkward just jungle d
 ```php
 $result = $ejsotp->generateQr();
 echo "<img src='".$result->getDataUri()."' />";
+```
+
+### Generate QrCode with Logo and Label
+```php
+$result = $ejsotp->generateQr("path_to_logo.png",true);
+echo "<img src='".$result->getDataUri()."' />";
+```
+
+### Generate QrCode with Label and without Logo
+```php
+$result = $ejsotp->generateQr(null,true);
+echo "<img src='".$result->getDataUri()."' />";
+```
+
+### Generate QrCode and Save to File
+```php
+$result = $ejsotp->generateQr();
+$result->saveToFile("path/qrcode-totp.png");
 ```
 
 ### Verify Using Google Authenticator
