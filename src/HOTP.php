@@ -28,17 +28,15 @@ class HOTP implements OTPInterface {
     protected $bip39;
     public $parameters = [];
 
-    public function __construct(?array $params=null) {
-        $this->parameters = $params;
-        $this->otp = LabHOTP::create(!empty($params["secret"]) && is_string($params["secret"]) ? Base32::encodeUpper($params["secret"]) : null, $params["counter"] ?? 0, $params["digest"] ?? 'sha1', $params["digits"] ?? 6);
+    public function __construct() {
         $this->writer = new PngWriter();
         $this->bip39 = new BIP39();
         self::$instance = $this;
     }
 
-    public static function getInstance(?array $params=null) {
+    public static function getInstance() {
         if (self::$instance === null) {
-            self::$instance = new self($params);
+            self::$instance = new self();
         }
         return self::$instance;
     }
@@ -48,6 +46,7 @@ class HOTP implements OTPInterface {
     }
 
     public function createOTP(?array $params=null): OTPInterface {
+        $this->parameters = $params;
         $this->otp = LabHOTP::create(!empty($params["secret"]) && is_string($params["secret"]) ? Base32::encodeUpper($params["secret"]) : null, $params["counter"] ?? 0, $params["digest"] ?? 'sha1', $params["digits"] ?? 6);
         return $this;
     }

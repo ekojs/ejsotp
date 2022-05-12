@@ -10,7 +10,8 @@ class HOTPTest extends TestCase {
 
     protected function setUp(): void
     {
-        $this->hotp = HOTP::getInstance([
+        $this->hotp = HOTP::getInstance();
+        $this->hotp->createOTP([
             "secret" => "mysecret",
             "counter" => 1000
         ]);
@@ -20,12 +21,12 @@ class HOTPTest extends TestCase {
 
     public function testGenerateHotp(): void
     {
-        $this->assertEquals("723619",$this->hotp->otp->at(1000));
+        $this->assertEquals("849873",$this->hotp->otp->at(1000));
     }
 
     public function testVerifyTotp(): void
     {
-        $this->assertTrue($this->hotp->otp->verify("723619",1000));
+        $this->assertTrue($this->hotp->otp->verify("849873",1000));
     }
 
     public function testGetParameters(): void
@@ -40,7 +41,7 @@ class HOTPTest extends TestCase {
 
     public function testGenerateQr(): void
     {
-        $this->assertEquals("data:image/png;base64,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",$this->hotp->generateQr()->getDataUri());
+        $this->assertEquals("data:image/png;base64,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",$this->hotp->generateQr()->getDataUri());
     }
 
     public function testCreateHotp(): void 

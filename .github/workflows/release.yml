@@ -52,18 +52,15 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: ${{ github.ref }}
         body: |
-          ## [1.0.2] - 2022-05-10
+          ## [1.1.0] - 2022-05-12
 
           ### Add
-          - Add Unit test
-          - Add CI/CD using travis-ci
-          - Add Code Coverage using Coveralls.io
+          - Add OTP Interface
 
           ### Update
           - Generate TOTP
           - Generate HOTP
-          - Generate Backup Codes using BIP39 Spec
-          - Reverse Mnemonic/Backup Codes to md5(secret)
-          - Generate Qr compatible with Google Authenticator
+          - TOTP Test case
+          - HOTP Test case
         draft: false
         prerelease: false

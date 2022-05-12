@@ -24,6 +24,7 @@ require_once "vendor/autoload.php";
 use Ekojs\Otp\TOTP;
 
 $ejsotp = TOTP::getInstance();
+$ejsotp->createOTP();
 $ejsotp->otp->setLabel("ekojs@email.com");
 $ejsotp->otp->setIssuer("My Service");
 
@@ -34,7 +35,7 @@ echo "The Uri is: {$ejsotp->otp->getProvisioningUri()}".PHP_EOL;
 
 ### Verify TOTP
 ```php
-$ejsotp = TOTP::getInstance(["secret" => "VE7RDW7LC45QHKVZI6SPHDQK254TKO7CPG6KHPQ4RYN4MGBBA6EAAHVYHRVAGO5LPF6XNDPAOLE3KYQHBBHPB62VFVNZURWRZUDER4A"]);
+$ejsotp->createOTP(["secret" => "VE7RDW7LC45QHKVZI6SPHDQK254TKO7CPG6KHPQ4RYN4MGBBA6EAAHVYHRVAGO5LPF6XNDPAOLE3KYQHBBHPB62VFVNZURWRZUDER4A"]);
 $ejsotp->otp->setLabel('ekojs@email.com');
 $ejsotp->otp->setIssuer("My Service");
 
@@ -48,7 +49,8 @@ require_once "vendor/autoload.php";
 
 use Ekojs\Otp\HOTP;
 
-$ejshotp = HOTP::getInstance(["counter" => 1000]);
+$ejshotp = HOTP::getInstance();
+$ejshotp->createOTP(["counter" => 1000]);
 $ejshotp->otp->setLabel("ekojs@email.com");
 $ejshotp->otp->setIssuer("My Service HOTP");
 
@@ -59,7 +61,7 @@ echo "The Uri is: {$ejshotp->otp->getProvisioningUri()}".PHP_EOL;
 
 ### Verify HOTP
 ```php
-$ejshotp = HOTP::getInstance([
+$ejshotp->createOTP([
     "secret" => "HZHL2VE2RWMT2KHDQCYCLPXJRJC7T63SZFNDTLEEEJISHLQS5Y6CRDTW4D7D3GA35VMSA32NAGLXEEFDSRT63E332JQOCTDAVK4HZHI",
     "counter" => 1000
 ]);
@@ -117,7 +119,8 @@ require_once "vendor/autoload.php";
 
 use Ekojs\Otp\TOTP;
 
-$ejsotp = TOTP::getInstance(["secret" => "VZCKGWRLS7CINEYALENYPH5T442LJUAFGSNCBTBQEHMN5GSVGTJCD2B7NHCZFK5FZ3QHTQ66JYDMNUI2UBWZJAYHI62VYVHVUGTO6SQ"]);
+$ejsotp = TOTP::getInstance();
+$ejsotp->createOTP(["secret" => "VZCKGWRLS7CINEYALENYPH5T442LJUAFGSNCBTBQEHMN5GSVGTJCD2B7NHCZFK5FZ3QHTQ66JYDMNUI2UBWZJAYHI62VYVHVUGTO6SQ"]);
 $ejsotp->otp->setLabel('ekojs@email.com');
 $ejsotp->otp->setIssuer("My Service");
 
