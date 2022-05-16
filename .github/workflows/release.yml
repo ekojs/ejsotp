@@ -1,28 +1,33 @@
 name: Release Deployment
 
 on:
+  pull_request:
   push:
     tags:
       - v**
-  # pull_request:
-  #   branches: [ master ]
 
 permissions:
   contents: write
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    name: ${{ matrix.operating-system }} - PHP ${{ matrix.php-versions }}
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.4', '8.0', '8.1']
 
     steps:
     - uses: actions/checkout@v3
 
     - name: Setup PHP with PCOV
+      id: setup-php
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.1'
-        ini-values: pcov.directory=src
+        php-version: "${{ matrix.php-versions }}"
+        extensions: intl
         coverage: pcov
 
     - name: Validate composer.json and composer.lock
@@ -33,16 +38,33 @@ jobs:
       uses: actions/cache@v3
       with:
         path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-php-${{ steps.setup-php.outputs.php-version }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-php-${{ github.repository }}
+          ${{ runner.os }}-php-${{ steps.setup-php.outputs.php-version }}-
 
     - name: Install dependencies
       run: composer install
 
-    # - name: Run test suite
-    #   run: composer run test
-      
+    - name: Run test suite
+      run: composer run test
+
+    - shell: bash
+      run: |
+          which tar && tar -czvf coverage.tar.gz build/logs/html
+    - name: Upload coverage as artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: mycoverage_${{ runner.os }}_${{ matrix.php-versions }}
+        path: coverage.tar.gz
+
+  release:
+    name: Release tag
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
     - name: Create Release
       id: create-new-release
       uses: actions/create-release@v1
@@ -52,15 +74,40 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: ${{ github.ref }}
         body: |
-          ## [1.1.0] - 2022-05-12
+          ## [1.1.1] - 2022-05-17
 
           ### Add
-          - Add OTP Interface
+          - Github Pages for PCOV Code Coverage
 
           ### Update
-          - Generate TOTP
-          - Generate HOTP
-          - TOTP Test case
-          - HOTP Test case
+          - Update Github Workflow
+          
         draft: false
         prerelease: false
+
+  deploy:
+    name: Deploy Github Pages
+    needs: release
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Download coverage
+      uses: actions/download-artifact@v3
+      with:
+        name: mycoverage_Linux_8.1
+
+    - shell: bash
+      run: |
+          which tar && tar -xzvf coverage.tar.gz && cd build/logs/html && mv _js js && mv _css css && mv _icons icons && for x in $(grep . -irle '_js');do sed -i'' 's/_js/js/g' $x;done && for x in $(grep . -irle '_css');do sed -i'' 's/_css/css/g' $x;done && for x in $(grep . -irle '_icons');do sed -i'' 's/_icons/icons/g' $x;done
+
+    - name: List files in the repository
+      run: |
+        ls ${{ github.workspace }}/build/logs/html
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.3.3
+      with:
+          branch: gh-pages
+          folder: build/logs/html
