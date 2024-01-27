@@ -30,7 +30,6 @@ class HOTP implements OTPInterface {
 
     public function __construct() {
         $this->writer = new PngWriter();
-        $this->bip39 = new BIP39();
         self::$instance = $this;
     }
 
@@ -64,11 +63,11 @@ class HOTP implements OTPInterface {
 
     public function generateBackupCodes(string $entropy, ?WordList $wordList=null): array {
         $wordList = $wordList ?? WordList::English();
-        return $this->bip39->wordlist($wordList)->useEntropy(hash("md5",$entropy))->mnemonic()->words;
+        return BIP39::Entropy(hash("sha256",$entropy))->words;
     }
 
     public function reverseMnemonic($words): string {
-        return $this->bip39::Words($words)->entropy;
+        return BIP39::Words($words)->entropy;
     }
 }
  
