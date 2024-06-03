@@ -55,7 +55,7 @@ class HOTPTest extends TestCase {
 
     public function testGenerateBackupCodes(): void 
     {
-        $this->assertEquals("almost awkward just jungle daring keep penalty lecture deputy fossil muscle nasty",implode(" ",$this->hotp->generateBackupCodes("mysecret")));
+        $this->assertEquals("gown glue immune autumn occur era cave antenna spray cake crack nothing ball drive mother next fade certain average desert flip owner infant buddy",implode(" ",$this->hotp->generateBackupCodes("mysecret")));
     }
 
     public function testReverseMnemonic(): void 
