@@ -96,7 +96,7 @@ jobs:
     - name: Download coverage
       uses: actions/download-artifact@v3
       with:
-        name: mycoverage_Linux_8.1
+        name: mycoverage_Linux_8.3
 
     - shell: bash
       run: |
