@@ -46,7 +46,7 @@ class HOTP implements OTPInterface {
 
     public function createOTP(?array $params=null): OTPInterface {
         $this->parameters = $params;
-        $this->otp = LabHOTP::create(!empty($params["secret"]) && is_string($params["secret"]) ? Base32::encodeUpper($params["secret"]) : null, $params["counter"] ?? 0, $params["digest"] ?? 'sha1', $params["digits"] ?? 6);
+        $this->otp = LabHOTP::create($params["secret"] ?? Base32::encodeUpper(random_bytes(64)), $params["counter"] ?? 0, $params["digest"] ?? 'sha1', $params["digits"] ?? 6);
         return $this;
     }
 

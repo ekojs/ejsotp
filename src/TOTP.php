@@ -46,7 +46,7 @@ class TOTP implements OTPInterface {
 
     public function createOTP(?array $params=null): OTPInterface {
         $this->parameters = $params;
-        $this->otp = LabTOTP::create(!empty($params["secret"]) && is_string($params["secret"]) ? Base32::encodeUpper($params["secret"]) : null, $params["period"] ?? 30, $params["digest"] ?? 'sha1', $params["digits"] ?? 6, $params["epoch"] ?? 0);
+        $this->otp = LabTOTP::create($params["secret"] ?? Base32::encodeUpper(random_bytes(64)), $params["period"] ?? 30, $params["digest"] ?? 'sha1', $params["digits"] ?? 6, $params["epoch"] ?? 0);
         return $this;
     }
 
