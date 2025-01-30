@@ -14,6 +14,11 @@ use \FurqanSiddiqui\BIP39\Wordlist;
 use ParagonIE\ConstantTime\Base32;
 
 use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\Label\LabelAlignment;
+use Endroid\QrCode\Label\Font\OpenSans;
+use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\Logo\Logo;
 use Endroid\QrCode\Label\Label;
@@ -51,14 +56,36 @@ class TOTP implements OTPInterface {
     }
 
     public function generateQr(?string $logo=null, bool $setLabel=false, int $size=200): ResultInterface {
-        $label = null;
-        $qrCode = QrCode::create($this->otp->getProvisioningUri());
-        $qrCode->setSize($size);
+        $qlogo = null;
+        $qlabel = null;
 
-        if(!empty($logo)) $logo = Logo::create($logo)->setResizeToWidth(50);
-        if(!empty($this->otp->getLabel()) && $setLabel) $label = Label::create($this->otp->getLabel())->setTextColor(new Color(0, 0, 255));
+        $qrCode = new QrCode(
+            data: $this->otp->getProvisioningUri(),
+            encoding: new Encoding('UTF-8'),
+            errorCorrectionLevel: ErrorCorrectionLevel::Low,
+            size: $size,
+            margin: 10,
+            roundBlockSizeMode: RoundBlockSizeMode::Margin,
+            foregroundColor: new Color(0, 0, 0),
+            backgroundColor: new Color(255, 255, 255)
+        );
 
-        return $this->writer->write($qrCode, $logo, $label);
+        if(!empty($logo)) {
+            $qlogo = new Logo(
+                path: $logo,
+                resizeToWidth: 50,
+                punchoutBackground: true
+            );
+        }
+
+        if(!empty($this->otp->getLabel()) && $setLabel) {
+            $qlabel = new Label(
+                text: $this->otp->getLabel(),
+                textColor: new Color(0, 0, 255)
+            );
+        }
+
+        return $this->writer->write($qrCode, $qlogo, $qlabel);
     }
 
     public function generateBackupCodes(string $entropy, ?WordList $wordList=null): array {

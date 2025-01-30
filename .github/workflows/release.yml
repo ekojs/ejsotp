@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        php-versions: ['8.2', '8.3']
 
     steps:
     - uses: actions/checkout@v3
@@ -74,13 +74,13 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: ${{ github.ref }}
         body: |
-          ## [2.0.0] - 2024-06-11
+          ## [3.0.0] - 2025-01-30
 
           ### Add
           - Github Pages for PCOV Code Coverage php 8.2, 8.3
 
           ### Change
-          - Fixing Create Secret
+          - Using php >= 8.2, for php below that use version 2 "composer require ekojs/otp:2.0.0"
           
         draft: false
         prerelease: false

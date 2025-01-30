@@ -7,6 +7,10 @@ TOTP and HOTP Library with backup codes, compatible with google authenticator. C
 [![Coverage Status](https://coveralls.io/repos/ekojs/ejsotp/badge.svg?branch=master)](https://coveralls.io/r/ekojs/ejsotp?branch=master)
 [![Latest Stable Version](http://poser.pugx.org/ekojs/otp/v)](https://packagist.org/packages/ekojs/otp) [![Total Downloads](http://poser.pugx.org/ekojs/otp/downloads)](https://packagist.org/packages/ekojs/otp) [![Latest Unstable Version](http://poser.pugx.org/ekojs/otp/v/unstable)](https://packagist.org/packages/ekojs/otp) [![License](http://poser.pugx.org/ekojs/otp/license)](https://packagist.org/packages/ekojs/otp) [![PHP Version Require](http://poser.pugx.org/ekojs/otp/require/php)](https://packagist.org/packages/ekojs/otp)
 
+## Coverage
+
+Check this code coverage on [http://ekojunaidisalam.com/ejsotp/](http://ekojunaidisalam.com/ejsotp/)
+
 ## Install
 
 For PHP version **`>= 7.4.13`**:
