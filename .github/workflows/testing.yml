@@ -3,6 +3,7 @@ name: Testing Deployment
 on:
   push:
     branches:
+      - 'master'
       - 'testing'
 
 permissions:
@@ -42,10 +43,17 @@ jobs:
           ${{ runner.os }}-php-${{ steps.setup-php.outputs.php-version }}-
 
     - name: Install dependencies
-      run: composer install
+      run: |
+        composer install
 
     - name: Checking GD Info
       run: php -r "print_r(gd_info());"
 
     - name: Run test suite
       run: composer run test
+
+    - name: Upload coverage results to Coveralls
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
