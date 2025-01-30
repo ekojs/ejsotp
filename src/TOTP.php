@@ -55,7 +55,7 @@ class TOTP implements OTPInterface {
         return $this;
     }
 
-    public function generateQr(?string $logo=null, bool $setLabel=false, int $size=200): ResultInterface {
+    public function generateQr(?string $logo=null, bool $setLabel=false, int $size=300): ResultInterface {
         $qlogo = null;
         $qlabel = null;
 

@@ -1,0 +1,51 @@
+name: Testing Deployment
+
+on:
+  push:
+    branches:
+      - 'testing'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.operating-system }} - PHP ${{ matrix.php-versions }}
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['8.2', '8.3']
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup PHP with PCOV
+      id: setup-php
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: "${{ matrix.php-versions }}"
+        extensions: intl
+        coverage: pcov
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ steps.setup-php.outputs.php-version }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-${{ steps.setup-php.outputs.php-version }}-
+
+    - name: Install dependencies
+      run: composer install
+
+    - name: Checking GD Info
+      run: php -r "print_r(gd_info());"
+
+    - name: Run test suite
+      run: composer run test

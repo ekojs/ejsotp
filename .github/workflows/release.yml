@@ -45,6 +45,9 @@ jobs:
     - name: Install dependencies
       run: composer install
 
+    - name: Checking GD Info
+      run: php -r "print_r(gd_info());"
+
     - name: Run test suite
       run: composer run test
 
@@ -74,14 +77,14 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: ${{ github.ref }}
         body: |
-          ## [3.0.0] - 2025-01-30
+          ## [3.0.1] - 2025-01-31
 
           ### Add
           - Github Pages for PCOV Code Coverage php 8.2, 8.3
+          - Testcase for qrcode with logo and label
 
           ### Change
-          - Fixing Deprecation Github Actions from v3 to v4
-          - Using php >= 8.2, for php below that use version 2 "composer require ekojs/otp:2.0.0"
+          - Pixel size for qrcode from 200 to 300
           
         draft: false
         prerelease: false
