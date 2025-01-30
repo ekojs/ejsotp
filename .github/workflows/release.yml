@@ -98,8 +98,11 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: mycoverage_Linux_8.3
-        path: coverage.tar.gz
-        overwrite: true
+        path: coverage
+
+    - name: Moving artifact to workspace
+      run: |
+          mv ${{ github.workspace }}/coverage/coverage.tar.gz ${{ github.workspace }}/coverage.tar.gz
 
     - shell: bash
       run: |

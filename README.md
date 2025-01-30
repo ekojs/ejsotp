@@ -1,11 +1,14 @@
 OTP Library
 =============
 
-TOTP and HOTP Library with backup codes, compatible with google authenticator. Compatible with PHP >= 7.4.13.
+TOTP and HOTP Library with backup codes, compatible with google authenticator. Compatible with PHP >= 8.2.
 
-[![Build Status](https://www.travis-ci.com/ekojs/ejsotp.svg?branch=master)](https://www.travis-ci.com/ekojs/ejsotp)
+[![Build Status](https://github.com/ekojs/ejsotp/actions/workflows/release.yml/badge.svg)](http://ekojunaidisalam.com/ejsotp/)
 [![Coverage Status](https://coveralls.io/repos/ekojs/ejsotp/badge.svg?branch=master)](https://coveralls.io/r/ekojs/ejsotp?branch=master)
-[![Latest Stable Version](http://poser.pugx.org/ekojs/otp/v)](https://packagist.org/packages/ekojs/otp) [![Total Downloads](http://poser.pugx.org/ekojs/otp/downloads)](https://packagist.org/packages/ekojs/otp) [![Latest Unstable Version](http://poser.pugx.org/ekojs/otp/v/unstable)](https://packagist.org/packages/ekojs/otp) [![License](http://poser.pugx.org/ekojs/otp/license)](https://packagist.org/packages/ekojs/otp) [![PHP Version Require](http://poser.pugx.org/ekojs/otp/require/php)](https://packagist.org/packages/ekojs/otp)
+[![Latest Stable Version](https://poser.pugx.org/ekojs/otp/version.svg)](https://packagist.org/packages/ekojs/otp)
+[![PHP Version Require](https://poser.pugx.org/ekojs/otp/require/php)](https://packagist.org/packages/ekojs/otp)
+[![License](https://poser.pugx.org/ekojs/otp/license.svg)](https://packagist.org/packages/ekojs/otp)
+[![Downloads](https://poser.pugx.org/ekojs/otp/d/total.svg)](https://packagist.org/packages/ekojs/otp)
 
 ## Coverage
 
@@ -13,7 +16,7 @@ Check this code coverage on [http://ekojunaidisalam.com/ejsotp/](http://ekojunai
 
 ## Install
 
-For PHP version **`>= 7.4.13`**:
+For PHP version **`>= 8.2`**:
 
 ```
 composer require ekojs/otp
